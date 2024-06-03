@@ -1,14 +1,20 @@
-import { range } from "../data/data";
+import { useContext } from "react";
+import { StateContext } from "../App";
+import Form from 'react-bootstrap/Form';
 
 type statProps = {
-    name : string,
     value : number,
-    update : (a:number) => void ,
-    prices : {[value:number] : number},
-    points : number
+    update : (a:number) => void
 };
 
-export default function StatItem({ name, value, update, prices, points } : statProps) {  
+type stateProps = {
+    prices : {[value:number] : number},
+    points : number
+}
+
+export default function StatItem({ value, update } : statProps) {
+    const { prices, points } : stateProps = useContext(StateContext);
+
     function difference(num : number) {
         const diff = prices[value] - prices[num];
         if (diff === 0) return "";
@@ -18,14 +24,13 @@ export default function StatItem({ name, value, update, prices, points } : statP
     
     return (
         <>
-            <p>{name}</p>
-            <select
+            <Form.Select
                 defaultValue={8}
                 onChange={(e) => update(parseInt(e.target.value))}
                 value={value}
             >
-                {range(8, 17).map(num => <option value={num} disabled={prices[value] - prices[num] + points < 0}>{num} {difference(num)}</option>)}
-            </select>
+                {Object.keys(prices).map(Number).map(num => <option value={num} disabled={prices[value] - prices[num] + points < 0}>{num} {difference(num)}</option>)}
+            </Form.Select>
         </>
     );
 }
