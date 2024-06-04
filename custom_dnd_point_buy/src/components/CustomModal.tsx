@@ -5,12 +5,14 @@ import { Button } from 'react-bootstrap';
 type ModalProps = {
     visible: boolean,
     close : () => void,
+    prices: any,
     setPrices: (value:any)=>void,
     setPoints: (value:any)=>void,
-    resetStats: (value:any)=>void
+    resetStats: (value:any)=>void,
+    points: number
 };
 
-export default function CustomModal({ visible, close, setPrices, setPoints, resetStats } : ModalProps) {
+export default function CustomModal({ visible, close, prices, setPrices, points, setPoints, resetStats } : ModalProps) {
     const handleSubmit = (event : any) => {
         event.preventDefault();
 
@@ -25,8 +27,8 @@ export default function CustomModal({ visible, close, setPrices, setPoints, rese
         }
         
         setPoints(parseInt(points_value));
-        setPrices(prices);
         resetStats(parseInt(min_value));
+        setPrices(prices);
         close();
     }
 
@@ -38,15 +40,15 @@ export default function CustomModal({ visible, close, setPrices, setPoints, rese
             <Form onSubmit={handleSubmit} className="grid gap-3">
                 <Form.Group className="mb-3" >
                     <Form.Label for="points">Total Allotted Points</Form.Label>
-                    <Form.Control type="number" defaultValue={75} min="0" id="points" required/>
+                    <Form.Control type="number" defaultValue={points} min="0" id="points" required/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label for="min">Minimum Ability Score</Form.Label>
-                    <Form.Control type="number" defaultValue={8} min="0" max="20" id="min" required/>
+                    <Form.Control type="number" defaultValue={Math.min(...Object.keys(prices).map(Number))} min="0" max="20" id="min" required/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label for="prices">Upgrade Prices</Form.Label>
-                    <Form.Control as="textarea" rows={3} placeholder="Enter numbers as a comma separated list..." id="prices" required/>
+                    <Form.Control as="textarea" rows={3} defaultValue={Object.values(prices).join(", ")} placeholder="Enter numbers as a comma separated list..." id="prices" required/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit

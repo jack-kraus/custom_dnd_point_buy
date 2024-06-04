@@ -3,23 +3,22 @@ import './App.css';
 import StatItem from './components/StatItem';
 import { stats as stat_arr, prices as price_dict } from './data/data';
 import CustomModal from './components/CustomModal';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 const default_stats : { [stat:string] : number } = {};
 stat_arr.forEach(stat => default_stats[stat] = 8);
 
 export const StateContext : any = createContext(null);
-export const ParametersConext : any = createContext(null);
 
 function App() {
-
-  const [stats, setStats] = useState(default_stats);
+  // State variables
+  const [stats, setStats] = useState(default_stats); // values of stat dropdowns, controlled
   const [visible, setVisible] = useState(false); // for modal
-  const [prices, setPrices] = useState(price_dict);
-  const [points, setPoints] = useState(75);
+  const [prices, setPrices] = useState(price_dict); // price dictionary
+  const [points, setPoints] = useState(75); // total points available
 
+  // Takes in a key, and returns a fuunction that takes in a value and updates the appropriate stat based on the key
   function updateStat(stat : string) {
     return (amount : number) => {
       const newStats = {...stats};
@@ -28,6 +27,7 @@ function App() {
     }
   }
 
+  // set all stats to one minimum value
   function resetStats(value : number) {
     const newStats = {...stats};
     for (const key in newStats) {
@@ -36,17 +36,26 @@ function App() {
     setStats(newStats);
   }
 
+  // get remaining points by subtracting all costs
   function getPoints() {
     return points - Object.values(stats).map(value => prices[value]).reduce((a,b)=>a+b);
   }
 
   return (
     <>
-      <CustomModal visible={visible} close={()=>setVisible(false)} setPrices={setPrices} setPoints={setPoints} resetStats={resetStats}/>
-      <Button onClick={()=>setVisible(true)}>Change Stats</Button>
-      <h1>{getPoints()}</h1>
+      <CustomModal
+        visible={visible}
+        close={()=>setVisible(false)}
+        setPrices={setPrices}
+        setPoints={setPoints}
+        resetStats={resetStats}
+        points={points}
+        prices={prices}
+      />
+      <h1></h1>
+      <h2>Points Remaining<br/>{getPoints()}</h2>
       <StateContext.Provider value={{prices:prices, points:getPoints()}}>
-        <table>
+        <Table>
           <tr>
             {Object.keys(stats).map((name, ind)=> <th key={ind}>{name}</th>)}
           </tr>
@@ -58,8 +67,9 @@ function App() {
               />
             </td>)}
           </tr>
-        </table>
+        </Table>
       </StateContext.Provider>
+      <Button onClick={()=>setVisible(true)}>{"\u2699"}</Button>
     </>
   );
 }
