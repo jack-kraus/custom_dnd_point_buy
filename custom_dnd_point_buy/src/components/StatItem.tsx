@@ -31,6 +31,7 @@ export default function StatItem({ value, update } : statProps) {
             >
                 {Object.keys(prices).map(Number).map(num => <option value={num} disabled={prices[value] - prices[num] + points < 0}>{num} {difference(num)}</option>)}
             </Form.Select>
+            <p>Price: {prices[value]}</p>
         </>
     );
 }

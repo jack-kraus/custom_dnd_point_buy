@@ -6,6 +6,7 @@ import './App.css';
 import CustomModal from './components/CustomModal';
 import { Button, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import gear from "./assets/gear.svg";
 
 const default_stats : { [stat:string] : number } = {};
 stat_arr.forEach(stat => default_stats[stat] = 8);
@@ -53,7 +54,7 @@ function App() {
         points={points}
         prices={prices}
       />
-      <h2>Points Remaining<br/>{getPoints()}</h2>
+      <h2>Points Remaining<br/>{getPoints()}/{points}</h2>
       <StateContext.Provider value={{prices:prices, points:getPoints()}}>
         <Table>
           <tr>
@@ -69,7 +70,7 @@ function App() {
           </tr>
         </Table>
       </StateContext.Provider>
-      <Button onClick={()=>setVisible(true)}>{"\u2699"}</Button>
+      <Button onClick={()=>setVisible(true)}><img src={gear} style={{filter: "brightness(0) invert(1)"}}></img></Button>
     </>
   );
 }
