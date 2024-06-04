@@ -1,7 +1,8 @@
 import { useState, createContext } from 'react';
-import './App.css';
+
 import StatItem from './components/StatItem';
 import { stats as stat_arr, prices as price_dict } from './data/data';
+import './App.css';
 import CustomModal from './components/CustomModal';
 import { Button, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,7 +53,6 @@ function App() {
         points={points}
         prices={prices}
       />
-      <h1></h1>
       <h2>Points Remaining<br/>{getPoints()}</h2>
       <StateContext.Provider value={{prices:prices, points:getPoints()}}>
         <Table>
