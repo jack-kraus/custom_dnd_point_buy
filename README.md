@@ -7,7 +7,9 @@ Using this site, you can easily tweak Dungeons and Dragons ability scores using 
 
 ![Tweaking Score Image](https://i.imgur.com/2OIqrBT.png)
 
-You are allotted a certain number of points, with each 
+You are allotted a certain number of points, with each subsequent increase of an ability score it requires more points.
+When you hit the dropdown on an ability, you can see the increase or decrease in points that selecting that score will give you.
+Scores that are unattainable due to insufficient points are grayed out and disabled.
 
 ## Settings
 
